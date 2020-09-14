@@ -13,11 +13,17 @@ namespace AspNetCoreMvcSearchingSortingPagination.Controllers
         public ProductsController()
         {
             ProductManager.SetProducts();
+            //ViewData["SortOrderParm"] = "desc";
         }
         // GET: ProductsController
-        public ActionResult Index()
+        public ActionResult Index(string sortBy, string sortOrder)
         {
-            var products = ProductManager.GetProducts("", "", "name", false);
+            ViewData["sortOrderParm"] = sortOrder == null || sortOrder == "asc" ? "desc" : "asc";
+
+            string sortByArg = string.IsNullOrEmpty(sortBy) || sortBy == "name" ? "name" : "category";
+            bool sortByAscending = string.IsNullOrEmpty(sortOrder) || sortOrder == "asc" ? true : false;
+
+            var products = ProductManager.GetProducts("", "", sortByArg, sortByAscending);
             return View(products);
         }
 

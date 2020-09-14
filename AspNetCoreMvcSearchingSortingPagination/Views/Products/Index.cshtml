@@ -13,13 +13,17 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["sortOrderParm"]" asp-route-sortBy="name">
+                    @Html.DisplayNameFor(model => model.Name)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Rate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["sortOrderParm"]" asp-route-sortBy="category">
+                    @Html.DisplayNameFor(model => model.Category)
+                </a>
             </th>
             <th></th>
         </tr>
@@ -37,9 +41,9 @@
                 @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
         </tr>
 }
