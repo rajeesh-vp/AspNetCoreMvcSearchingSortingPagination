@@ -28,8 +28,8 @@ namespace AspNetCoreMvcSearchingSortingPagination.Domain
         public static List<Product> GetProducts(string name, string category, string sortBy, bool sortByAscending)
         {
             var query = _products
-                .Where(e => string.IsNullOrEmpty(name) ? e.Name == name : true)
-                .Where(e => string.IsNullOrEmpty(category) ? e.Category == category : true).AsQueryable();
+                .Where(e => string.IsNullOrEmpty(name) ? true : e.Name == name)
+                .Where(e => string.IsNullOrEmpty(category) ? true : e.Category == category).AsQueryable();
 
             if (sortBy == "name")
             {
