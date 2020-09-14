@@ -25,11 +25,11 @@ namespace AspNetCoreMvcSearchingSortingPagination.Domain
             new Product{ Id=new Guid(), Name ="Product9", Category = "Category1", Rate = 9000},
         };
         }
-        public static List<Product> GetProducts(string? name, string? category, string sortBy, bool sortByAscending)
+        public static List<Product> GetProducts(string name, string category, string sortBy, bool sortByAscending)
         {
             var query = _products
-                .Where(e => name.Length > 0 ? e.Name == name : true)
-                .Where(e => category.Length > 0 ? e.Category == category : true).AsQueryable();
+                .Where(e => string.IsNullOrEmpty(name) ? e.Name == name : true)
+                .Where(e => string.IsNullOrEmpty(category) ? e.Category == category : true).AsQueryable();
 
             if (sortBy == "name")
             {
