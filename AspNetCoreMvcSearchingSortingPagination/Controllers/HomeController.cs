@@ -17,11 +17,11 @@ namespace AspNetCoreMvcSearchingSortingPagination.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            ProductManager.SetProducts();
         }
 
         public IActionResult Index()
-        {
-            ProductManager.SetProducts();
+        {            
             var products = ProductManager.GetProducts("", "", "name", false);
 
             return View();
