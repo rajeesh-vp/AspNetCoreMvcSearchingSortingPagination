@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AspNetCoreMvcSearchingSortingPagination.Models;
-using AspNetCoreMvcSearchingSortingPagination.Domain;
 
 namespace AspNetCoreMvcSearchingSortingPagination.Controllers
 {
@@ -17,12 +16,10 @@ namespace AspNetCoreMvcSearchingSortingPagination.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            ProductManager.SetProducts();
         }
 
         public IActionResult Index()
         {            
-            var products = ProductManager.GetProducts("", "", "name", false);
 
             return View();
         }
