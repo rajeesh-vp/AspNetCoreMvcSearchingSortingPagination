@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,29 @@ namespace AspNetCoreMvcSearchingSortingPagination.Domain
                 new SelectListItem("Product9", "Product9"),
             };
         }
-        public static List<Product> GetProducts(string name, string sortBy, bool sortByAscending)
+        //public static List<Product> GetProducts(string name, string sortBy, bool sortByAscending)
+        //{
+        //    var query = _products
+        //        .Where(e => string.IsNullOrEmpty(name) ? true : e.Name == name).AsQueryable();
+
+        //    if (sortBy == "name")
+        //    {
+        //        if (sortByAscending)
+        //            query = query.OrderBy(e => e.Name);
+        //        else
+        //            query = query.OrderByDescending(e => e.Name);
+        //    }
+        //    else
+        //    {
+        //        if (sortByAscending)
+        //            query = query.OrderBy(e => e.Category);
+        //        else
+        //            query = query.OrderByDescending(e => e.Category);
+        //    }
+
+        //    return query.ToList();
+        //}
+        public static PaginatedList<Product> GetPagedList(string name, string sortBy, bool sortByAscending, int pageIndex, int pageSize)
         {
             var query = _products
                 .Where(e => string.IsNullOrEmpty(name) ? true : e.Name == name).AsQueryable();
@@ -56,12 +79,15 @@ namespace AspNetCoreMvcSearchingSortingPagination.Domain
             else
             {
                 if (sortByAscending)
-                    query = query.OrderBy(e => e.Category);
+                    query = query.OrderBy(e => e.Category).ThenBy(e=>e.Name);
                 else
-                    query = query.OrderByDescending(e => e.Category);
+                    query = query.OrderByDescending(e => e.Category).ThenBy(e => e.Name);
             }
 
-            return query.ToList();
+            var count = query.Count();
+            var items = query.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            return new PaginatedList<Product>(items, count, pageIndex, pageSize);
         }
     }
 }

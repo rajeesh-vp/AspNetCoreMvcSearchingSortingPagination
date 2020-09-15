@@ -1,4 +1,6 @@
-﻿@model IEnumerable<AspNetCoreMvcSearchingSortingPagination.Domain.Product>
+﻿@using AspNetCoreMvcSearchingSortingPagination.Domain
+
+@model PaginatedList<AspNetCoreMvcSearchingSortingPagination.Domain.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +11,7 @@
 @*When you specify method="get", the form data is passed in the URL as query strings, which enables users to bookmark the URL.*@
 @*The W3C guidelines recommend that you should use GET when the action doesn't result in an update*@
 
-<form asp-action="Index" method="get">
+<form asp-action="Index" asp-route-filterChanged="" method="get">
     <div class="form-group">
         <label>Find by name</label>
         <select asp-items="@productLookup" class="form-control" name="searchString">
@@ -30,16 +32,16 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["sortOrderParm"]" asp-route-sortBy="name">
-                    @Html.DisplayNameFor(model => model.Name)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["currentSortOrder"]" asp-route-searchString="@ViewData["currentFilter"]" asp-route-sortBy="name" asp-route-changeSortOrder="yes">
+                    Name
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rate)
+                Rate
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["sortOrderParm"]" asp-route-sortBy="category">
-                    @Html.DisplayNameFor(model => model.Category)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["currentSortOrder"]" asp-route-searchString="@ViewData["currentFilter"]" asp-route-sortBy="category" asp-route-changeSortOrder="yes">
+                    Category
                 </a>
             </th>
             <th></th>
@@ -67,3 +69,25 @@
         }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortBy="@ViewData["currentSortBy"]"
+   asp-route-sortOrder="@ViewData["currentSortOrder"]"
+   asp-route-pageNo="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["currentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortBy="@ViewData["currentSortBy"]"
+   asp-route-sortOrder="@ViewData["currentSortOrder"]"
+   asp-route-pageNo="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["currentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

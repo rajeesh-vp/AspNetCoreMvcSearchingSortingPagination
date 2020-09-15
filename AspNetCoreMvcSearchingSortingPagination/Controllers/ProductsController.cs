@@ -14,7 +14,7 @@ namespace AspNetCoreMvcSearchingSortingPagination.Controllers
         {
             ProductManager.SetProducts();
         }
-        public ActionResult Index(string sortBy, string sortOrder, string searchString)
+        public ActionResult Index(string sortBy, string sortOrder, string changeSortOrder, string searchString, int? pageNo, string filterChanged)
         {
             var productLookup = ProductManager.GetProductLookup();
             foreach (var item in productLookup)
@@ -26,14 +26,21 @@ namespace AspNetCoreMvcSearchingSortingPagination.Controllers
             }
             ViewData["productLookup"] = productLookup;
 
-            ViewData["sortOrderParm"] = sortOrder == null || sortOrder == "asc" ? "desc" : "asc";
+            if (changeSortOrder == "yes")
+                sortOrder = sortOrder == null || sortOrder == "asc" ? "desc" : "asc";
+            
+            ViewData["currentSortOrder"] = sortOrder;
+            ViewData["currentSortBy"] = sortBy;
+
             string sortByArg = string.IsNullOrEmpty(sortBy) || sortBy == "name" ? "name" : "category";
             bool sortByAscending = string.IsNullOrEmpty(sortOrder) || sortOrder == "asc" ? true : false;
 
-            
+            pageNo = pageNo ?? 1;
 
-            var products = ProductManager.GetProducts(searchString, sortByArg, sortByAscending);
+            ViewData["currentFilter"] = searchString;
+
+            var products = ProductManager.GetPagedList(searchString, sortByArg, sortByAscending, pageNo ?? 1, 3);
             return View(products);
-        }
+        }        
     }
 }
