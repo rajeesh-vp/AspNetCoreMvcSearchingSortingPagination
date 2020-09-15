@@ -2,9 +2,26 @@
 
 @{
     ViewData["Title"] = "Index";
+    List<SelectListItem> productLookup = ViewData["productLookup"] as List<SelectListItem>;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+@*When you specify method="get", the form data is passed in the URL as query strings, which enables users to bookmark the URL.*@
+@*The W3C guidelines recommend that you should use GET when the action doesn't result in an update*@
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label>Find by name</label>
+        <select asp-items="@productLookup" class="form-control" name="searchString">
+            <option value="">Select</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-outline-success">
+            Search
+        </button>
+    </div>
+</form>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -29,23 +46,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
