@@ -35,8 +35,6 @@ namespace AspNetCoreMvcSearchingSortingPagination.Controllers
             string sortByArg = string.IsNullOrEmpty(sortBy) || sortBy == "name" ? "name" : "category";
             bool sortByAscending = string.IsNullOrEmpty(sortOrder) || sortOrder == "asc" ? true : false;
 
-            pageNo = pageNo ?? 1;
-
             ViewData["currentFilter"] = searchString;
 
             var products = ProductManager.GetPagedList(searchString, sortByArg, sortByAscending, pageNo ?? 1, 3);
