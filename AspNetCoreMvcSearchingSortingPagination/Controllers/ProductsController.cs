@@ -14,7 +14,7 @@ namespace AspNetCoreMvcSearchingSortingPagination.Controllers
         {
             ProductManager.SetProducts();
         }
-        public ActionResult Index(string sortBy, string sortOrder, string changeSortOrder, string searchString, int? pageNo, string filterChanged)
+        public ActionResult Index(string sortBy, string sortOrder, string changeSortOrder, string searchString, int? pageNo)
         {
             var productLookup = ProductManager.GetProductLookup();
             foreach (var item in productLookup)
